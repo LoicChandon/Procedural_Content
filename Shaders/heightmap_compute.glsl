@@ -96,14 +96,15 @@ void main() {
     }
 
     // Calculate the sample position
-    vec2 sample_position = vec2(pixel_coordinate) * noise_params.noise_scale + noise_params.offset;
+    vec2 sample_position = vec2(pixel_coordinate) / vec2(image_size);
         
     // Apply additional seed offset to sample position
-    sample_position += vec2(float(noise_params.seed) * 0.01);
+    sample_position += noise_params.offset;
+
 
     // Generate noise value (0 to 1)
-    float height = fbm(sample_position);
+    float height = fbm(sample_position * noise_params.noise_scale * 0.2);
     
     // Write the height value to the image
-    imageStore(height_map, pixel_coordinate, vec4(height, 0.0, 0.0, 0.0));
+    imageStore(height_map, pixel_coordinate, vec4(height, 0.0, 0.0, 1.0));
 }
